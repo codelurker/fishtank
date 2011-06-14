@@ -6,8 +6,8 @@ class Fish:
 		self.x = 0
 		self.y = 0
 
-	def render(self, scr):
-		scr.addstr(self.x, self.y, self.ascii)
+	def draw(self, cio):
+		cio.drawAscii(self.x, self.y, self.ascii)
 
 	def setPos(self, x, y):
 		self.x = x

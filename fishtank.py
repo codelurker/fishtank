@@ -1,16 +1,21 @@
 #!/usr/bin/python
 
-import curses
+import os
+import sys
 from fish import SmallFish
 
 if __name__ == "__main__":
-	myscreen = curses.initscr()
-	curses.noecho()
-	curses.cbreak()
-	curses.curs_set(0)
-	myscreen.keypad(1)
+	if os.name == 'posix':
+		from src.curses_cio import CursesCIO
+		cio = CursesCIO()
+	elif os.name == 'nt':
+		from src.win_cio import WinCIO
+		cio = WinCIO()
+	else:
+		print("Unsupported platform '%s' - no console I/O to use" % (os.name))
+		sys.exit(1)
 
-	curses.halfdelay(1) # block for 0.1s
+	cio.init()
 
 	smallFish = SmallFish()
 	smallFish.setPos(20, 20)
@@ -19,26 +24,22 @@ if __name__ == "__main__":
 	x = 20
 	y = 20
 	while not exit:
-		myscreen.erase()
+		cio.clear()
 		smallFish.setPos(x, y)
-		smallFish.render(myscreen)
-		myscreen.refresh()
+		smallFish.draw(cio)
+		cio.refresh()
 
-		ch = myscreen.getch()
-		if ch == curses.KEY_LEFT and x > 0:
-			y -= 1
-		if ch == curses.KEY_RIGHT:
-			y += 1
-		if ch == curses.KEY_UP and y > 0:
-			x -= 1
-		if ch == curses.KEY_DOWN:
-			x += 1
+		ch = cio.getKey()
+		#if ch == curses.KEY_LEFT and x > 0:
+		#	y -= 1
+		#if ch == curses.KEY_RIGHT:
+		#	y += 1
+		#if ch == curses.KEY_UP and y > 0:
+		#	x -= 1
+		#if ch == curses.KEY_DOWN:
+		#	x += 1
 		if ch == ord('q'):
 			exit = True
 
-	myscreen.keypad(0)
-	curses.curs_set(1)
-	curses.nocbreak()
-	curses.echo()
-	curses.endwin()
+	cio.cleanup()
 
