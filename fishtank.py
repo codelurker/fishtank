@@ -30,15 +30,15 @@ if __name__ == "__main__":
 		cio.refresh()
 
 		ch = cio.getKey()
-		#if ch == curses.KEY_LEFT and x > 0:
-		#	y -= 1
-		#if ch == curses.KEY_RIGHT:
-		#	y += 1
-		#if ch == curses.KEY_UP and y > 0:
-		#	x -= 1
-		#if ch == curses.KEY_DOWN:
-		#	x += 1
-		if ch == ord('q'):
+		if ch == cio.key_left and y > 0:
+			y -= 1
+		if ch == cio.key_right and y < (cio.getTermWidth()-2):
+			y += 1
+		if ch == cio.key_up and x > 0:
+			x -= 1
+		if ch == cio.key_down and x < (cio.getTermHeight()-1):
+			x += 1
+		if ch == cio.key_q:
 			exit = True
 
 	cio.cleanup()
