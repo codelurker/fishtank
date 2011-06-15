@@ -2,7 +2,7 @@
 
 import os
 import sys
-from fish import SmallFish
+from src.fish import SmallFish
 
 if __name__ == "__main__":
 	if os.name == 'posix':
