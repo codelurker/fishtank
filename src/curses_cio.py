@@ -1,6 +1,7 @@
 import curses
 
 class CursesCIO:
+	key_esc    = 27
 	key_left   = curses.KEY_LEFT
 	key_right  = curses.KEY_RIGHT
 	key_up     = curses.KEY_UP
@@ -28,7 +29,8 @@ class CursesCIO:
 		self.screen.erase()
 
 	def drawAscii(self, x, y, ascii):
-		self.screen.addstr(x, y, ascii)
+		# x and y axis are switched for curses
+		self.screen.addstr(y, x, ascii)
 
 	def refresh(self):
 		self.screen.refresh()
@@ -41,3 +43,4 @@ class CursesCIO:
 
 	def getTermHeight(self):
 		return self.screen.getmaxyx()[0]
+

@@ -5,10 +5,10 @@ import sys
 from src.fish import SmallFish
 
 if __name__ == "__main__":
-	if os.name == 'posix':
+	if os.name == "posix":
 		from src.curses_cio import CursesCIO
 		cio = CursesCIO()
-	elif os.name == 'nt':
+	elif os.name == "nt":
 		from src.win_cio import WinCIO
 		cio = WinCIO()
 	else:
@@ -30,15 +30,15 @@ if __name__ == "__main__":
 		cio.refresh()
 
 		ch = cio.getKey()
-		if ch == cio.key_left and y > 0:
-			y -= 1
-		if ch == cio.key_right and y < (cio.getTermWidth()-2):
-			y += 1
-		if ch == cio.key_up and x > 0:
+		if ch == cio.key_left and x > 0:
 			x -= 1
-		if ch == cio.key_down and x < (cio.getTermHeight()-1):
+		if ch == cio.key_right and x < (cio.getTermWidth()-2):
 			x += 1
-		if ch == cio.key_q:
+		if ch == cio.key_up and y > 0:
+			y -= 1
+		if ch == cio.key_down and y < (cio.getTermHeight()-1):
+			y += 1
+		if ch == cio.key_q or ch == cio.key_esc:
 			exit = True
 
 	cio.cleanup()
