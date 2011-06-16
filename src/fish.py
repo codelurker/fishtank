@@ -1,17 +1,14 @@
+from src.object import Object
 import data.fish
 
-class Fish:
+class Fish(Object):
 	def __init__(self, ascii):
+		super(Fish, self).__init__()
+
 		self.ascii = ascii
-		self.x = 0
-		self.y = 0
 
 	def draw(self, cio):
 		cio.drawAscii(self.x, self.y, self.ascii)
-
-	def setPos(self, x, y):
-		self.x = x
-		self.y = y
 
 class SmallFish(Fish):
 	def __init__(self):

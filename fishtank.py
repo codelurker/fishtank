@@ -21,23 +21,22 @@ if __name__ == "__main__":
 	smallFish.setPos(20, 20)
 
 	exit = False
-	x = 20
-	y = 20
 	while not exit:
 		cio.clear()
-		smallFish.setPos(x, y)
 		smallFish.draw(cio)
 		cio.refresh()
 
+		x, y = smallFish.getPos()
+
 		ch = cio.getKey()
 		if ch == cio.key_left and x > 0:
-			x -= 1
+			smallFish.move(-1, 0)
 		if ch == cio.key_right and x < (cio.getTermWidth()-2):
-			x += 1
+			smallFish.move(1, 0)
 		if ch == cio.key_up and y > 0:
-			y -= 1
+			smallFish.move(0, -1)
 		if ch == cio.key_down and y < (cio.getTermHeight()-1):
-			y += 1
+			smallFish.move(0, 1)
 		if ch == cio.key_q or ch == cio.key_esc:
 			exit = True
 
