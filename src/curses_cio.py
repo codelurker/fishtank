@@ -1,12 +1,13 @@
 import curses
 
 class CursesCIO:
-	key_esc    = 27
-	key_left   = curses.KEY_LEFT
-	key_right  = curses.KEY_RIGHT
-	key_up     = curses.KEY_UP
-	key_down   = curses.KEY_DOWN
-	key_q      = ord('q')
+	key_esc   = 27
+	key_left  = curses.KEY_LEFT
+	key_right = curses.KEY_RIGHT
+	key_up    = curses.KEY_UP
+	key_down  = curses.KEY_DOWN
+	key_a     = ord('a')
+	key_q     = ord('q')
 
 	def init(self):
 		self.screen = curses.initscr()

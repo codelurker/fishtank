@@ -2,12 +2,13 @@ import time
 import WConio
 
 class WinCIO:
-	key_esc    = chr(27)
-	key_left   = "left"
-	key_right  = "right"
-	key_up     = "up"
-	key_down   = "down"
-	key_q      = 'q'
+	key_esc   = chr(27)
+	key_left  = "left"
+	key_right = "right"
+	key_up    = "up"
+	key_down  = "down"
+	key_a     = 'a'
+	key_q     = 'q'
 
 	def init(self):
 		pass

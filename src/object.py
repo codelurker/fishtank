@@ -1,7 +1,10 @@
 class Object:
 	def __init__(self):
-		self.x = 0
-		self.y = 0
+		self.x = 0.0
+		self.y = 0.0
+
+	def update(self, dt):
+		pass
 
 	def draw(self, cio):
 		pass
