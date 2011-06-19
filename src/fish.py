@@ -14,6 +14,8 @@ class Fish(Object):
 
 	def draw(self, cio):
 		cio.drawAscii(int(self.x), int(self.y), self.ascii)
+		xx, yy = self.agent.getCenter()
+		cio.drawAscii(int(xx), int(yy), "X")
 
 class SmallFish(Fish):
 	def __init__(self):
@@ -29,6 +31,6 @@ class SmallFish(Fish):
 		if x > 0:
 			self.ascii = data.fish.fish["right"]
 
-	def update(self, dt):
-		mx, my = self.agent.update(self.x, self.y)
+	def update(self, dt, fishes):
+		mx, my = self.agent.update(self.x, self.y, fishes)
 		self.move(mx * self.speed * dt, my * self.speed * dt)

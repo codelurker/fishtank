@@ -28,7 +28,7 @@ class Tank(Object):
 			self.objects.append(smallFish)
 
 		for obj in self.objects:
-			obj.update(self.timer.getDelta())
+			obj.update(self.timer.getDelta(), self.objects)
 
 	def draw(self, cio):
 		for y in range(0, self.height-1):
