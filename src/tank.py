@@ -20,8 +20,9 @@ class Tank(Object):
 		if key == cio.key_a:
 			smallFish = SmallFish()
 
+			smallFish.setBoundaries(2, 2, self.width-2, self.height-3)
 			x = random.randint(1, self.width-2)
-			y = random.randint(1, self.height-2)
+			y = random.randint(1, self.height-3)
 			smallFish.setPos(x, y)
 
 			self.objects.append(smallFish)
