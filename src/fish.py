@@ -31,6 +31,6 @@ class SmallFish(Fish):
 		if x > 0:
 			self.ascii = data.fish.fish["right"]
 
-	def update(self, dt, fishes):
-		mx, my = self.agent.update(self.x, self.y, fishes)
+	def update(self, dt, fishes, food):
+		mx, my = self.agent.update(self.x, self.y, fishes, food)
 		self.move(mx * self.speed * dt, my * self.speed * dt)

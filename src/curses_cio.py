@@ -7,6 +7,7 @@ class CursesCIO:
 	key_up    = curses.KEY_UP
 	key_down  = curses.KEY_DOWN
 	key_a     = ord('a')
+	key_f     = ord('f')
 	key_q     = ord('q')
 
 	def init(self):
