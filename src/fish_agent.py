@@ -13,13 +13,13 @@ class FishAgent(Agent):
 		mx = 0
 		my = 0
 
-		if self.x < gx-tx:
+		if int(self.x) < gx-tx:
 			mx = 1
-		if self.x > gx+tx:
+		if int(self.x) > gx+tx:
 			mx = -1
-		if self.y < gy-ty:
+		if int(self.y) < gy-ty:
 			my = 1
-		if self.y > gy+ty:
+		if int(self.y) > gy+ty:
 			my = -1
 
 		return (mx, my)
@@ -41,24 +41,22 @@ class FishAgent(Agent):
 		return self.goTo(cx, cy, 5, 3)
 
 	def feed(self, food):
+		if len(food) is 0:
+			return (None, None)
+
 		cx = 0
 		cy = 0
 		closest = 1000 # TODO: make it a constant
+
 		for ff in food:
 			fx, fy = ff.getPos()
-			dist = math.hypot(self.x - fx, self.y - fx)
-			logging.info("x %d, y %d, fx %d, fy %d - dist %d" % (self.x, self.y, fx, fy, dist))
+			dist = math.hypot(self.x - fx, self.y - fy)
 			if dist < closest:
 				closest = dist
 				cx = fx
 				cy = fy
 
-		logging.info("closest: %d" % (closest))
-
-		if closest is 1000:
-			return (None, None)
-		else:
-			return self.goTo(cx, cy, 0, 0)
+		return self.goTo(cx, cy, 0, 0)
 
 	def update(self, x, y, fishes, food):
 		self.x = x

@@ -49,8 +49,8 @@ class Tank(Object):
 			cio.drawAscii(x, 0, '~')
 			cio.drawAscii(x, self.height-2, '-')
 
-		for fish in self.fishes:
-			fish.draw(cio)
 		for food in self.food:
 			food.draw(cio)
+		for fish in self.fishes:
+			fish.draw(cio)
 
