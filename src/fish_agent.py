@@ -1,5 +1,5 @@
-import sys
 import random
+import logging
 import math
 from src.agent import Agent
 
@@ -47,14 +47,13 @@ class FishAgent(Agent):
 		for ff in food:
 			fx, fy = ff.getPos()
 			dist = math.hypot(self.x - fx, self.y - fx)
-			sys.stderr.write("x %d, y %d, fx %d, fy %d - dist %d\n" % (self.x, self.y, fx, fy, dist))
+			logging.info("x %d, y %d, fx %d, fy %d - dist %d" % (self.x, self.y, fx, fy, dist))
 			if dist < closest:
 				closest = dist
 				cx = fx
 				cy = fy
 
-		sys.stderr.write("closest: %d\n" % (closest))
-		sys.stderr.flush()
+		logging.info("closest: %d" % (closest))
 
 		if closest is 1000:
 			return (None, None)
