@@ -46,6 +46,7 @@ class FishAgent(Agent):
 
 		cx = 0
 		cy = 0
+		cf = None
 		closest = 1000 # TODO: make it a constant
 
 		for ff in food:
@@ -55,8 +56,13 @@ class FishAgent(Agent):
 				closest = dist
 				cx = fx
 				cy = fy
+				cf = ff
 
-		return self.goTo(cx, cy, 0, 0)
+		if int(self.x) is int(cx) and int(self.y) is int(cy):
+			food.remove(cf)
+			return (0, 0)
+		else:
+			return self.goTo(cx, cy, 0, 0)
 
 	def update(self, x, y, fishes, food):
 		self.x = x
