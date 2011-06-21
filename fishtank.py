@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import os
 import sys
 import src.cio
 from src.tank import Tank
