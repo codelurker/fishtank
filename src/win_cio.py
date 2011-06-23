@@ -9,6 +9,7 @@ class WinCIO:
 	key_down  = "down"
 	key_a     = 'a'
 	key_f     = 'f'
+	key_p     = 'p'
 	key_q     = 'q'
 
 	def init(self):

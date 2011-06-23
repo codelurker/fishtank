@@ -1,7 +1,7 @@
 import random
 from src import timer
 from src.object import Object
-from src.fish import SmallFish
+from src.fish import SmallFish, PredatorFish
 from src.food import Food
 
 class Tank(Object):
@@ -14,6 +14,7 @@ class Tank(Object):
 		self.timer = timer.createTimer()
 
 		self.fishes = []
+		self.predators = []
 		self.food = []
 
 	def update(self, cio, key):
@@ -29,6 +30,16 @@ class Tank(Object):
 
 			self.fishes.append(smallFish)
 
+		if key == cio.key_p:
+			predatorFish = PredatorFish()
+
+			predatorFish.setBoundaries(2, 2, self.width-2, self.height-3)
+			x = random.randint(1, self.width-2)
+			y = random.randint(1, self.height-3)
+			predatorFish.setPos(x, y)
+
+			self.predators.append(predatorFish)
+
 		if key == cio.key_f:
 			food = Food()
 			x = random.randint(1, self.width-2)
@@ -36,6 +47,9 @@ class Tank(Object):
 			food.setPos(x, y)
 
 			self.food.append(food)
+
+		for predator in self.predators:
+			predator.update(self.timer.getDelta(), self.fishes)
 
 		for fish in self.fishes:
 			fish.update(self.timer.getDelta(), self.fishes, self.food)
@@ -53,4 +67,6 @@ class Tank(Object):
 			food.draw(cio)
 		for fish in self.fishes:
 			fish.draw(cio)
+		for predator in self.predators:
+			predator.draw(cio)
 
