@@ -1,6 +1,7 @@
 import random
 import logging
 import math
+import pdb
 from src.agent import Agent
 
 class PredatorAgent(Agent):
@@ -43,8 +44,7 @@ class PredatorAgent(Agent):
 				cfish = fish
 
 		if int(self.x) is int(cx) and int(self.y) is int(cy):
-			# TODO: crashes
-			#fish.remove(cfish)
+			fishes.remove(cfish)
 			return (0, 0)
 		else:
 			return self.goTo(cx, cy, 0, 0)
