@@ -72,7 +72,7 @@ class Tank(Object):
 			predator.update(self.timer.getDelta(), self.fishes)
 
 		for fish in self.fishes:
-			fish.update(self.timer.getDelta(), self.fishes, self.food)
+			fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
 
 	def draw(self, cio):
 		for y in range(0, self.height-1):

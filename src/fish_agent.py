@@ -84,14 +84,47 @@ class FishAgent(Agent):
 		else:
 			return self.goTo(cx, cy, 0, 0)
 
-	def update(self, x, y, fishes, food):
+	def run(self, predators):
+		if len(predators) is 0:
+			return (None, None)
+
+		# TODO: get closest je duplicitni
+		cx = 0
+		cy = 0
+		closest = 1000 # TODO: make it a constant
+
+		for predator in predators:
+			fx, fy = predator.getPos()
+			dist = math.hypot(self.x - fx, self.y - fy)
+			if dist < closest:
+				closest = dist
+				cx = fx
+				cy = fy
+
+		if closest < 5:
+			if self.x - cx > 0:
+				mx = 1
+			else:
+				mx = -1
+			if self.y - cy > 0:
+				my = 1
+			else:
+				my = -1
+
+			return (mx, my)
+		else:
+			return (None, None)
+
+	def update(self, x, y, fishes, food, predators):
 		self.x = x
 		self.y = y
 		#mx = random.randint(-1, 1)
 		mx = 0
 		my = 0
 
-		mx, my = self.feed(food)
+		mx, my = self.run(predators)
+		if mx is None:
+			mx, my = self.feed(food)
 		if mx is None:
 			mx, my = self.school(fishes)
 
