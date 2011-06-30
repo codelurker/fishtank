@@ -23,6 +23,7 @@ from src import timer
 from src.object import Object
 from src.fish import SmallFish, PredatorFish
 from src.food import Food
+from src.grass import Grass
 
 class Tank(Object):
 	def __init__(self, width, height):
@@ -36,6 +37,18 @@ class Tank(Object):
 		self.fishes = []
 		self.predators = []
 		self.food = []
+		self.grass = []
+
+		grass_num = int(self.width / 10)
+		for i in range(0, grass_num):
+			x = random.randint(1, self.width-2)
+			y = self.height-3
+
+			grass = Grass()
+			grass.setPos(x, y)
+			grass.setHeight(random.randint(1, self.height-3))
+
+			self.grass.append(grass)
 
 	def update(self, cio, key):
 		self.timer.update()
@@ -83,6 +96,8 @@ class Tank(Object):
 			cio.drawAscii(x, 0, '~')
 			cio.drawAscii(x, self.height-2, '-')
 
+		for grass in self.grass:
+			grass.draw(cio)
 		for food in self.food:
 			food.draw(cio)
 		for fish in self.fishes:
