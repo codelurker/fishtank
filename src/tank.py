@@ -39,12 +39,12 @@ class Tank(Object):
 		self.food = []
 		self.grass = []
 
-		grass_num = int(self.width / 10)
+		grass_num = int(self.width / 20)
 		for i in range(0, grass_num):
 			x = random.randint(1, self.width-2)
 			y = self.height-3
 
-			grass = Grass()
+			grass = Grass("green")
 			grass.setPos(x, y)
 			grass.setHeight(random.randint(1, self.height-3))
 
@@ -54,7 +54,7 @@ class Tank(Object):
 		self.timer.update()
 
 		if key == cio.key_a:
-			smallFish = SmallFish()
+			smallFish = SmallFish("cyan")
 
 			smallFish.setBoundaries(2, 2, self.width-2, self.height-3)
 			x = random.randint(1, self.width-2)
@@ -64,7 +64,7 @@ class Tank(Object):
 			self.fishes.append(smallFish)
 
 		if key == cio.key_p:
-			predatorFish = PredatorFish()
+			predatorFish = PredatorFish("red")
 
 			predatorFish.setBoundaries(2, 2, self.width-2, self.height-3)
 			x = random.randint(1, self.width-2)
@@ -74,7 +74,7 @@ class Tank(Object):
 			self.predators.append(predatorFish)
 
 		if key == cio.key_f:
-			food = Food()
+			food = Food("yellow")
 			x = random.randint(1, self.width-2)
 			y = random.randint(1, self.height-3)
 			food.setPos(x, y)

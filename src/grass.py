@@ -22,8 +22,8 @@ from src.object import Object
 import data.grass
 
 class Grass(Object):
-	def __init__(self):
-		super(Grass, self).__init__()
+	def __init__(self, color=""):
+		super(Grass, self).__init__(color)
 
 		self.ascii = data.grass.grass
 		self.height = 0
@@ -35,5 +35,5 @@ class Grass(Object):
 		# It is assumed that the surface is at 0 y coord
 		if self.height < self.y:
 			for i in range(0, self.height):
-				cio.drawAscii(int(self.x), int(self.y)-i, self.ascii)
+				cio.drawAscii(int(self.x), int(self.y)-i, self.ascii, self.color)
 

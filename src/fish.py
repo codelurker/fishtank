@@ -24,8 +24,8 @@ from src.predator_agent import PredatorAgent
 import data.fish
 
 class Fish(Object):
-	def __init__(self, ascii):
-		super(Fish, self).__init__()
+	def __init__(self, ascii, color=""):
+		super(Fish, self).__init__(color)
 
 		self.speed = 1
 		self.ascii = ascii
@@ -34,13 +34,13 @@ class Fish(Object):
 		self.agent.setBoundaries(minX, minY, maxX, maxY)
 
 	def draw(self, cio):
-		cio.drawAscii(int(self.x), int(self.y), self.ascii)
+		cio.drawAscii(int(self.x), int(self.y), self.ascii, self.color)
 		xx, yy = self.agent.getCenter()
 		cio.drawAscii(int(xx), int(yy), "X")
 
 class SmallFish(Fish):
-	def __init__(self):
-		super(SmallFish, self).__init__(data.fish.fish["left"])
+	def __init__(self, color=""):
+		super(SmallFish, self).__init__(data.fish.fish["left"], color)
 
 		self.agent = FishAgent()
 		self.speed = 8
@@ -57,8 +57,8 @@ class SmallFish(Fish):
 		self.move(mx * self.speed * dt, my * self.speed * dt)
 
 class PredatorFish(Fish):
-	def __init__(self):
-		super(PredatorFish, self).__init__(data.fish.predator["left"])
+	def __init__(self, color=""):
+		super(PredatorFish, self).__init__(data.fish.predator["left"], color)
 
 		self.agent = PredatorAgent()
 		self.speed = 8

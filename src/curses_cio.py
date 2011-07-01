@@ -40,6 +40,12 @@ class CursesCIO:
 
 		curses.halfdelay(1) # block for 0.1s
 
+		curses.start_color()
+		curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+		curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
+		curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
+		curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+
 	def cleanup(self):
 		self.screen.keypad(0)
 		curses.curs_set(1)
@@ -47,13 +53,27 @@ class CursesCIO:
 		curses.echo()
 		curses.endwin()
 
+	def has_colors(self):
+		return curses.has_colors()
+
 	def clear(self):
 		# TODO: test self.screen for validity?
 		self.screen.erase()
 
-	def drawAscii(self, x, y, ascii):
+	def drawAscii(self, x, y, ascii, color=""):
 		# x and y axis are switched for curses
-		self.screen.addstr(y, x, ascii)
+		if color is "green":
+			pair = 1
+		elif color is "cyan":
+			pair = 2
+		elif color is "red":
+			pair = 3
+		elif color is "yellow":
+			pair = 4
+		else:
+			pair = 0
+
+		self.screen.addstr(y, x, ascii, curses.color_pair(pair))
 
 	def refresh(self):
 		self.screen.refresh()

@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 import time
+import logging
 import WConio
 
 class WinCIO:
@@ -38,11 +39,27 @@ class WinCIO:
 	def cleanup(self):
 		WConio.textmode()
 
+	def has_colors(self):
+		logging.info("WinCIO.has_colors returns always True")
+		return True
+
 	def clear(self):
 		WConio.clrscr()
 
-	def drawAscii(self, x, y, ascii):
+	def drawAscii(self, x, y, ascii, color=""):
+		if color is "green":
+			col = WConio.GREEN
+		if color is "cyan":
+			col = WConio.CYAN
+		if color is "red":
+			col = WConio.RED
+		if color is "yellow":
+			col = WConio.YELLOW
+		else:
+			col = WConio.WHITE
+
 		WConio.gotoxy(x, y)
+		WConio.textcolor(col)
 		WConio.cputs(ascii)
 
 	def refresh(self):

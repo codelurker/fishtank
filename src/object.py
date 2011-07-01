@@ -19,7 +19,9 @@
 # THE SOFTWARE.
 
 class Object:
-	def __init__(self):
+	def __init__(self, color=""):
+		self.color = color
+
 		self.x = 0.0
 		self.y = 0.0
 

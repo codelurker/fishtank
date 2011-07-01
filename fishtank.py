@@ -35,6 +35,9 @@ if __name__ == "__main__":
 	cio.init()
 	logging.info("initialized")
 
+	if not cio.has_colors():
+		logging.info("colors are not supported")
+
 	tank = Tank(cio.getTermWidth(), cio.getTermHeight())
 
 	exit = False
