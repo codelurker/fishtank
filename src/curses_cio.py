@@ -50,6 +50,7 @@ class CursesCIO(object):
 		curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
 		curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
 		curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+		curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
 	def cleanup(self):
 		try:
@@ -70,7 +71,6 @@ class CursesCIO(object):
 		self.screen.erase()
 
 	def drawAscii(self, x, y, ascii, color=""):
-		# x and y axis are switched for curses
 		if color is "green":
 			pair = 1
 		elif color is "cyan":
@@ -79,9 +79,12 @@ class CursesCIO(object):
 			pair = 3
 		elif color is "yellow":
 			pair = 4
+		elif color is "blue":
+			pair = 5
 		else:
 			pair = 0
 
+		# x and y axis are switched for curses
 		self.screen.addstr(y, x, ascii, curses.color_pair(pair))
 
 	def refresh(self):

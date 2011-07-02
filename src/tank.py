@@ -93,7 +93,7 @@ class Tank(Object):
 			cio.drawAscii(self.width-1, y, '|')
 
 		for x in range(1, self.width-1):
-			cio.drawAscii(x, 0, '~')
+			cio.drawAscii(x, 0, '~', "blue")
 			cio.drawAscii(x, self.height-2, '-')
 
 		for grass in self.grass:
