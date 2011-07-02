@@ -31,14 +31,15 @@ if __name__ == "__main__":
 		print("Unsupported platform '%s' - fishtank runs only on posix platforms" % (os.name))
 		sys.exit(1)
 
-	logging.basicConfig(filename="fish.log", filemode='w', level=logging.INFO)
+	fmt = '%(asctime)s %(levelname)s %(message)s'
+	logging.basicConfig(filename="fish.log", filemode='w', level=logging.INFO, format=fmt)
 
 	cio = CursesCIO()
 	cio.init()
 	logging.info("initialized")
 
 	if not cio.has_colors():
-		logging.info("colors are not supported")
+		logging.warning("colors are not supported")
 
 	tank = Tank(cio.getTermWidth(), cio.getTermHeight())
 

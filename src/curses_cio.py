@@ -41,7 +41,7 @@ class CursesCIO(object):
 		try:
 			curses.curs_set(0)
 		except:
-			logging.info("cursor hiding is not supported")
+			logging.warning("cursor hiding is not supported")
 
 		curses.halfdelay(1) # block for 0.1s
 
