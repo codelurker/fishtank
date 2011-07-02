@@ -50,6 +50,8 @@ class Tank(Object):
 
 			self.grass.append(grass)
 
+		self.help = "[q]uit, [c]yan fish, [f]ood, [p]redator"
+
 	def update(self, cio, key):
 		self.timer.update()
 
@@ -87,6 +89,9 @@ class Tank(Object):
 		for fish in self.fishes:
 			fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
 
+	def drawHelp(self, cio):
+		cio.drawAscii(0, self.height-1, self.help)
+
 	def draw(self, cio):
 		for y in range(0, self.height-1):
 			cio.drawAscii(0, y, '|')
@@ -104,4 +109,6 @@ class Tank(Object):
 			fish.draw(cio)
 		for predator in self.predators:
 			predator.draw(cio)
+
+		self.drawHelp(cio)
 
