@@ -22,11 +22,7 @@ Python 2.6 (or later)
 4. Controls
 ~~~~~~~~~~~~
 q - quit
-a - add a fish
+c - add a cyan fish
 f - add some food for the fish
 p - add a predator fish
-
-5. Links
-~~~~~~~~~
-[1] http://newcenturycomputers.net/projects/wconio.html
 
