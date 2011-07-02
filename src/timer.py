@@ -30,7 +30,7 @@ def createTimer():
 		print("Unable to create timer for platform '%s'" % (os.name))
 		return None
 
-class Timer:
+class Timer(object):
 	def __init__(self):
 		self.last = 0
 		self.current = 0
@@ -53,7 +53,7 @@ class TimerPosix(Timer):
 	def getTime(self):
 		return time.time()
 
-class TimerNT:
+class TimerNT(Timer):
 	def __init__(self):
 		super(TimerNT, self).__init__()
 

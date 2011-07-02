@@ -22,7 +22,7 @@ import time
 import logging
 import WConio
 
-class WinCIO:
+class WinCIO(object):
 	key_esc   = chr(27)
 	key_left  = "left"
 	key_right = "right"

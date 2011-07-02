@@ -19,8 +19,9 @@
 # THE SOFTWARE.
 
 import curses
+import logging
 
-class CursesCIO:
+class CursesCIO(object):
 	key_esc   = 27
 	key_left  = curses.KEY_LEFT
 	key_right = curses.KEY_RIGHT
@@ -35,8 +36,12 @@ class CursesCIO:
 		self.screen = curses.initscr()
 		curses.noecho()
 		curses.cbreak()
-		curses.curs_set(0)
 		self.screen.keypad(1)
+
+		try:
+			curses.curs_set(0)
+		except:
+			logging.info("cursor hiding is not supported")
 
 		curses.halfdelay(1) # block for 0.1s
 
@@ -47,8 +52,12 @@ class CursesCIO:
 		curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
 	def cleanup(self):
+		try:
+			curses.curs_set(1)
+		except:
+			pass
+
 		self.screen.keypad(0)
-		curses.curs_set(1)
 		curses.nocbreak()
 		curses.echo()
 		curses.endwin()

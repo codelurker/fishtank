@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-class Agent:
+class Agent(object):
 	def __init__(self):
 		self.centerX = 0
 		self.centerY = 0
