@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		print("Unsupported platform '%s' - fishtank runs only on posix platforms" % (os.name))
 		sys.exit(1)
 
-	logging.basicConfig(filename="fish.log", level=logging.INFO)
+	logging.basicConfig(filename="fish.log", filemode='w', level=logging.INFO)
 
 	cio = CursesCIO()
 	cio.init()
