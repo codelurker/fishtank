@@ -20,18 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import os
 import sys
 import logging
-import src.cio
+from src.curses_cio import CursesCIO
 from src.tank import Tank
 
 if __name__ == "__main__":
-	logging.basicConfig(filename="fish.log", level=logging.INFO)
-
-	cio = src.cio.createCio()
-	if cio is None:
+	if os.name is not "posix":
+		print("Unsupported platform '%s' - fishtank runs only on posix platforms" % (os.name))
 		sys.exit(1)
 
+	logging.basicConfig(filename="fish.log", level=logging.INFO)
+
+	cio = CursesCIO()
 	cio.init()
 	logging.info("initialized")
 

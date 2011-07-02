@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 import random
-from src import timer
+from src.timer import Timer
 from src.object import Object
 from src.fish import SmallFish, PredatorFish
 from src.food import Food
@@ -32,7 +32,7 @@ class Tank(Object):
 		self.width = width
 		self.height = height
 
-		self.timer = timer.createTimer()
+		self.timer = Timer()
 
 		self.fishes = []
 		self.predators = []

@@ -18,10 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import random
-import logging
 import math
-import pdb
 from src.agent import Agent
 
 class PredatorAgent(Agent):
