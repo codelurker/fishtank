@@ -29,7 +29,7 @@ class PredatorAgent(Agent):
 		if len(fishes) is 0 or self.owner is None:
 			return (None, None)
 		self.owner.changeHead("hunt")
-		self.speed = 12
+		self.speed = 14
 
 		fish, dist, cx, cy = super(PredatorAgent, self).getClosest(fishes)
 
@@ -60,7 +60,7 @@ class PredatorAgent(Agent):
 	def update(self, owner, dt, fishes):
 		super(PredatorAgent, self).update(owner)
 
-		# A hierarchy of the behavioral rules
+		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
 		mx, my = self.hunt(fishes)
 		if mx is None:

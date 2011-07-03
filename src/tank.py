@@ -27,7 +27,7 @@ from src.grass import Grass
 
 class Tank:
 	def __init__(self, width, height):
-		logging.info("Preparing fishtank...")
+		logging.info("Preparing fishtank (size %d, %d)..." % (width, height))
 		# Prepare window and tank dimensions
 		self.win_w = width - 1
 		self.win_h = height - 1
@@ -47,15 +47,19 @@ class Tank:
 		logging.info("Generating grass...")
 		self.generateGrass(20)
 
+		# Generate an initial population of fish
+		logging.info("Generating fish population...")
+		self.generateFish(10)
+
 		# Prepare a help text
 		self.help = "[q]uit, [c]yan fish, [f]ood, [p]redator"
 
 	def generateGrass(self, density):
 		# Compute how much grass to create
-		grass_num = int(self.tank_w / density)
+		grassNum = int(self.tank_w / density)
 
 		# Create each grass
-		for i in range(0, grass_num):
+		for i in range(0, grassNum):
 			x = random.randint(1, self.tank_w)
 			y = self.tank_h
 
@@ -64,6 +68,13 @@ class Tank:
 			grass.setHeight(random.randint(1, self.tank_h))
 
 			self.grass.append(grass)
+
+	def generateFish(self, density):
+		# Create each fish
+		for i in range (0, density):
+			smallFish = SmallFish("cyan")
+			self.initFish(smallFish)
+			self.fishes.append(smallFish)
 
 	def randPos(self):
 		x = random.randint(1, self.tank_w)

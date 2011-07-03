@@ -84,7 +84,7 @@ class FishAgent(Agent):
 	def update(self, owner, dt, fishes, food, predators):
 		super(FishAgent, self).update(owner)
 
-		# A hierarchy of the behavioral rules
+		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
 		mx, my = self.run(predators)
 		if mx is None:
