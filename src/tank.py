@@ -19,88 +19,102 @@
 # THE SOFTWARE.
 
 import random
+import logging
 from src.timer import Timer
-from src.object import Object
 from src.fish import SmallFish, PredatorFish
 from src.food import Food
 from src.grass import Grass
 
-class Tank(Object):
+class Tank:
 	def __init__(self, width, height):
-		super(Tank, self).__init__()
+		logging.info("Preparing fishtank...")
+		# Prepare window and tank dimensions
+		self.win_w = width - 1
+		self.win_h = height - 1
+		self.tank_w = self.win_w - 1
+		self.tank_h = self.win_h - 2
 
-		self.width = width
-		self.height = height
-
+		# Create a timer for the simulation
 		self.timer = Timer()
 
+		# Prepare empty lists for tank objects
 		self.fishes = []
 		self.predators = []
 		self.food = []
 		self.grass = []
 
-		grass_num = int(self.width / 20)
+		# Generate some grass in the tank
+		logging.info("Generating grass...")
+		self.generateGrass(20)
+
+		# Prepare a help text
+		self.help = "[q]uit, [c]yan fish, [f]ood, [p]redator"
+
+	def generateGrass(self, density):
+		# Compute how much grass to create
+		grass_num = int(self.tank_w / density)
+
+		# Create each grass
 		for i in range(0, grass_num):
-			x = random.randint(1, self.width-2)
-			y = self.height-3
+			x = random.randint(1, self.tank_w)
+			y = self.tank_h
 
 			grass = Grass("green")
-			grass.setPos(x, y)
-			grass.setHeight(random.randint(1, self.height-3))
+			grass.setPos((x, y))
+			grass.setHeight(random.randint(1, self.tank_h))
 
 			self.grass.append(grass)
 
-		self.help = "[q]uit, [c]yan fish, [f]ood, [p]redator"
+	def randPos(self):
+		x = random.randint(1, self.tank_w)
+		y = random.randint(1, self.tank_h)
+		return (x, y)
+
+	def initFish(self, fish):
+		fish.setBoundaries(2, 2, self.tank_w, self.tank_h)
+		fish.setPos(self.randPos())
 
 	def update(self, cio, key):
 		self.timer.update()
 
-		if key == cio.key_a:
+		# 'c' key - creates new cyan small fish
+		if key == cio.key_c:
 			smallFish = SmallFish("cyan")
-
-			smallFish.setBoundaries(2, 2, self.width-2, self.height-3)
-			x = random.randint(1, self.width-2)
-			y = random.randint(1, self.height-3)
-			smallFish.setPos(x, y)
-
+			self.initFish(smallFish)
 			self.fishes.append(smallFish)
 
+		# 'p' key - creates new predator fish
 		if key == cio.key_p:
 			predatorFish = PredatorFish("red")
-
-			predatorFish.setBoundaries(2, 2, self.width-2, self.height-3)
-			x = random.randint(1, self.width-2)
-			y = random.randint(1, self.height-3)
-			predatorFish.setPos(x, y)
-
+			self.initFish(predatorFish)
 			self.predators.append(predatorFish)
 
+		# 'p' key - adds some food for the fishes
 		if key == cio.key_f:
 			food = Food("yellow")
-			x = random.randint(1, self.width-2)
-			y = random.randint(1, self.height-3)
-			food.setPos(x, y)
-
+			food.setPos(self.randPos())
 			self.food.append(food)
 
+		# Update all the objects in the tank
 		for predator in self.predators:
 			predator.update(self.timer.getDelta(), self.fishes)
-
 		for fish in self.fishes:
 			fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
 
 	def drawHelp(self, cio):
-		cio.drawAscii(0, self.height-1, self.help)
+		cio.drawAscii(0, self.win_h, self.help)
 
 	def draw(self, cio):
-		for y in range(0, self.height-1):
+		# Draw the tank outline and water
+		for y in range(0, self.win_h):
 			cio.drawAscii(0, y, '|')
-			cio.drawAscii(self.width-1, y, '|')
+			cio.drawAscii(self.win_w, y, '|')
 
-		for x in range(1, self.width-1):
+		for x in range(1, self.win_w):
 			cio.drawAscii(x, 0, '~', "blue")
-			cio.drawAscii(x, self.height-2, '-')
+			cio.drawAscii(x, self.win_h-1, '-')
 
+		# Draw objects in the tank
 		for grass in self.grass:
 			grass.draw(cio)
 		for food in self.food:
@@ -110,5 +124,6 @@ class Tank(Object):
 		for predator in self.predators:
 			predator.draw(cio)
 
+		# Draw a help text
 		self.drawHelp(cio)
 

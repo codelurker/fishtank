@@ -27,7 +27,7 @@ class CursesCIO(object):
 	key_right = curses.KEY_RIGHT
 	key_up    = curses.KEY_UP
 	key_down  = curses.KEY_DOWN
-	key_a     = ord('a')
+	key_c     = ord('c')
 	key_f     = ord('f')
 	key_p     = ord('p')
 	key_q     = ord('q')
@@ -41,16 +41,24 @@ class CursesCIO(object):
 		try:
 			curses.curs_set(0)
 		except:
-			logging.warning("cursor hiding is not supported")
+			logging.warning("Cursor hiding is not supported")
 
 		curses.halfdelay(1) # block for 0.1s
 
-		curses.start_color()
-		curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
-		curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
-		curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
-		curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-		curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
+		if curses.has_colors():
+			self.colors = True
+			curses.start_color()
+
+			curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+			curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
+			curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
+			curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+			curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
+		else:
+			self.colors = False
+			logging.warning("Colors are not supported")
+
+		logging.info("Console I/O initialized")
 
 	def cleanup(self):
 		try:
@@ -63,8 +71,7 @@ class CursesCIO(object):
 		curses.echo()
 		curses.endwin()
 
-	def has_colors(self):
-		return curses.has_colors()
+		logging.info("Console settings reverted back to normal")
 
 	def clear(self):
 		# TODO: test self.screen for validity?
@@ -85,7 +92,10 @@ class CursesCIO(object):
 			pair = 0
 
 		# x and y axis are switched for curses
-		self.screen.addstr(y, x, ascii, curses.color_pair(pair))
+		if self.colors:
+			self.screen.addstr(y, x, ascii, curses.color_pair(pair))
+		else:
+			self.screen.addstr(y, x, ascii)
 
 	def refresh(self):
 		self.screen.refresh()

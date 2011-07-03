@@ -73,3 +73,4 @@ class PredatorFish(Fish):
 	def update(self, dt, fishes):
 		mx, my = self.agent.update(self.x, self.y, fishes)
 		self.move(mx * self.speed * dt, my * self.speed * dt)
+

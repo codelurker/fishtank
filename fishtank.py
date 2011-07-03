@@ -36,10 +36,6 @@ if __name__ == "__main__":
 
 	cio = CursesCIO()
 	cio.init()
-	logging.info("initialized")
-
-	if not cio.has_colors():
-		logging.warning("colors are not supported")
 
 	tank = Tank(cio.getTermWidth(), cio.getTermHeight())
 
@@ -56,5 +52,4 @@ if __name__ == "__main__":
 			exit = True
 
 	cio.cleanup()
-	logging.info("cleaned up")
 
