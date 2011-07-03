@@ -4,7 +4,7 @@ Contents
 	2. License
 	3. Dependencies
 	4. Controls
-	5. Links
+	5. Fish emotions
 
 
 1. Introduction
@@ -25,4 +25,17 @@ q - quit
 c - add a cyan fish
 f - add some food for the fish
 p - add a predator fish
+
+5. Fish emotions
+~~~~~~~~~~~~~~~~~
+Small fish:
+    0< - the fish feels good and is fooling around
+    X< - the fish just ate something good
+    &< - the fish is scared to death while running away from a predator
+
+Predator:
+    0=< - the predator is looking for something tasty
+    $=< - the predator is in a hunting rush
+    X=< - the predator just devoured some poor little fish
+    ^=< - the predator is going to sleep as there is nothing to eat
 

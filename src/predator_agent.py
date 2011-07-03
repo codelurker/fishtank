@@ -18,74 +18,56 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import math
 from src.agent import Agent
 
 class PredatorAgent(Agent):
 	def __init__(self):
 		super(PredatorAgent, self).__init__()
-		self.x = 0
-		self.y = 0
-
-	def goTo(self, gx, gy, tx, ty):
-		mx = 0
-		my = 0
-
-		if int(self.x) < gx-tx:
-			mx = 1
-		if int(self.x) > gx+tx:
-			mx = -1
-		if int(self.y) < gy-ty:
-			my = 1
-		if int(self.y) > gy+ty:
-			my = -1
-
-		return (mx, my)
+		self.speed = 8
 
 	def hunt(self, fishes):
-		if len(fishes) is 0:
+		if len(fishes) is 0 or self.owner is None:
 			return (None, None)
+		self.owner.changeHead("hunt")
+		self.speed = 12
 
-		cx = 0
-		cy = 0
-		cfish = None
-		closest = 1000 # TODO: make it a constant
-
-		for fish in fishes:
-			fx, fy = fish.getPos()
-			dist = math.hypot(self.x - fx, self.y - fy)
-			if dist < closest:
-				closest = dist
-				cx = fx
-				cy = fy
-				cfish = fish
+		fish, dist, cx, cy = super(PredatorAgent, self).getClosest(fishes)
 
 		if int(self.x) is int(cx) and int(self.y) is int(cy):
-			fishes.remove(cfish)
+			fishes.remove(fish)
+			self.owner.changeHead("eat")
 			return (0, 0)
-		else:
+		elif dist < 6:
 			return self.goTo(cx, cy, 0, 0)
+		else:
+			return (None, None)
 
-	def update(self, x, y, fishes):
-		self.x = x
-		self.y = y
-		#mx = random.randint(-1, 1)
-		mx = 0
-		my = 0
+	def findPrey(self, fishes):
+		if len(fishes) is 0 or self.owner is None:
+			return (None, None)
+		self.owner.changeHead("normal")
+		self.speed = 8
 
+		fish, dist, cx, cy = super(PredatorAgent, self).getClosest(fishes)
+
+		return self.goTo(cx, cy, 0, 0)
+
+	def sleep(self):
+		self.owner.changeHead("sleep")
+		self.speed = 4
+		return (0, 1)
+
+	def update(self, owner, dt, fishes):
+		super(PredatorAgent, self).update(owner)
+
+		# A hierarchy of the behavioral rules
+		# Rules are sorted according to their priority
 		mx, my = self.hunt(fishes)
 		if mx is None:
-			mx = 0
-			my = 0
+			mx, my = self.findPrey(fishes)
+		if mx is None:
+			mx, my = self.sleep()
 
-		# Keep the fish in the tank
-		if self.x <= self.minX and mx is -1:
-			mx = 0
-		if self.x >= self.maxX and mx is 1:
-			mx = 0
-		if self.y <= self.minY and my is -1:
-			my = 0
-		if self.y >= self.maxY and my is 1:
-			my = 0
+		# Move the fish
+		super(PredatorAgent, self).move(dt, mx, my)
 
-		return (mx, my)

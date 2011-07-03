@@ -18,31 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import math
 from src.agent import Agent
 
 class FishAgent(Agent):
 	def __init__(self):
 		super(FishAgent, self).__init__()
-		self.x = 0
-		self.y = 0
-
-	def goTo(self, gx, gy, tx, ty):
-		mx = 0
-		my = 0
-
-		if int(self.x) < gx-tx:
-			mx = 1
-		if int(self.x) > gx+tx:
-			mx = -1
-		if int(self.y) < gy-ty:
-			my = 1
-		if int(self.y) > gy+ty:
-			my = -1
-
-		return (mx, my)
+		self.speed = 8
 
 	def school(self, fishes):
+		self.owner.changeHead("normal")
+		self.speed = 8
+
 		cx = 0
 		cy = 0
 		for fish in fishes:
@@ -58,26 +44,17 @@ class FishAgent(Agent):
 
 		return self.goTo(cx, cy, 5, 3)
 
-	def feed(self, food):
-		if len(food) is 0:
+	def feed(self, foods):
+		if len(foods) is 0 or self.owner is None:
 			return (None, None)
+		self.owner.changeHead("normal")
+		self.speed = 8
 
-		cx = 0
-		cy = 0
-		cf = None
-		closest = 1000 # TODO: make it a constant
-
-		for ff in food:
-			fx, fy = ff.getPos()
-			dist = math.hypot(self.x - fx, self.y - fy)
-			if dist < closest:
-				closest = dist
-				cx = fx
-				cy = fy
-				cf = ff
+		food, dist, cx, cy = super(FishAgent, self).getClosest(foods)
 
 		if int(self.x) is int(cx) and int(self.y) is int(cy):
-			food.remove(cf)
+			foods.remove(food)
+			self.owner.changeHead("eat")
 			return (0, 0)
 		else:
 			return self.goTo(cx, cy, 0, 0)
@@ -85,21 +62,12 @@ class FishAgent(Agent):
 	def run(self, predators):
 		if len(predators) is 0:
 			return (None, None)
+		self.owner.changeHead("run")
+		self.speed = 12
 
-		# TODO: get closest je duplicitni
-		cx = 0
-		cy = 0
-		closest = 1000 # TODO: make it a constant
+		predator, dist, cx, cy = super(FishAgent, self).getClosest(predators)
 
-		for predator in predators:
-			fx, fy = predator.getPos()
-			dist = math.hypot(self.x - fx, self.y - fy)
-			if dist < closest:
-				closest = dist
-				cx = fx
-				cy = fy
-
-		if closest < 5:
+		if dist < 5:
 			if self.x - cx > 0:
 				mx = 1
 			else:
@@ -113,27 +81,17 @@ class FishAgent(Agent):
 		else:
 			return (None, None)
 
-	def update(self, x, y, fishes, food, predators):
-		self.x = x
-		self.y = y
-		#mx = random.randint(-1, 1)
-		mx = 0
-		my = 0
+	def update(self, owner, dt, fishes, food, predators):
+		super(FishAgent, self).update(owner)
 
+		# A hierarchy of the behavioral rules
+		# Rules are sorted according to their priority
 		mx, my = self.run(predators)
 		if mx is None:
 			mx, my = self.feed(food)
 		if mx is None:
 			mx, my = self.school(fishes)
 
-		# Keep the fish in the tank
-		if self.x <= self.minX and mx is -1:
-			mx = 0
-		if self.x >= self.maxX and mx is 1:
-			mx = 0
-		if self.y <= self.minY and my is -1:
-			my = 0
-		if self.y >= self.maxY and my is 1:
-			my = 0
+		# Move the fish
+		super(FishAgent, self).move(dt, mx, my)
 
-		return (mx, my)

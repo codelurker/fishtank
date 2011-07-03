@@ -18,10 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import math
+
 class Agent(object):
 	def __init__(self):
 		self.centerX = 0
 		self.centerY = 0
+
+		self.owner = None
+		self.x = 0
+		self.y = 0
+
+		self.speed = 1
 
 	def setBoundaries(self, minX, minY, maxX, maxY):
 		self.minX = minX
@@ -29,8 +37,58 @@ class Agent(object):
 		self.maxX = maxX
 		self.maxY = maxY
 
-	def update(self, x, y):
-		pass
-
 	def getCenter(self):
 		return (self.centerX, self.centerY)
+
+	def goTo(self, gx, gy, tx, ty):
+		mx = 0
+		my = 0
+
+		if int(self.x) < gx-tx:
+			mx = 1
+		if int(self.x) > gx+tx:
+			mx = -1
+		if int(self.y) < gy-ty:
+			my = 1
+		if int(self.y) > gy+ty:
+			my = -1
+
+		return (mx, my)
+
+	def getClosest(self, objects):
+		cx = 0
+		cy = 0
+		cobj = None
+		closest = 1000 # TODO: make it a constant
+
+		for obj in objects:
+			ox, oy = obj.getPos()
+			dist = math.hypot(self.x - ox, self.y - oy)
+			if dist < closest:
+				closest = dist
+				cobj = obj
+				cx = ox
+				cy = oy
+
+		return (cobj, closest, cx, cy)
+
+	def update(self, owner):
+		self.owner = owner
+		(self.x, self.y) = owner.getPos()
+
+	def move(self, dt, mx, my):
+		if self.owner is not None:
+
+			# Keep the fish in the tank
+			if self.x <= self.minX and mx is -1:
+				mx = 0
+			if self.x >= self.maxX and mx is 1:
+				mx = 0
+			if self.y <= self.minY and my is -1:
+				my = 0
+			if self.y >= self.maxY and my is 1:
+				my = 0
+
+			# Move the fish
+			self.owner.move(mx * self.speed * dt, my * self.speed * dt)
+

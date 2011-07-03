@@ -19,12 +19,22 @@
 # THE SOFTWARE.
 
 fish = {
-	"left": "0<",
-	"right": ">0"
+	"left_normal": "0<",
+	"right_normal": ">0",
+	"left_eat": "X<",
+	"right_eat": ">X",
+	"left_run": "&<",
+	"right_run": ">&",
 }
 
 predator = {
-	"left": "0=<",
-	"right": ">=0"
+	"left_normal": "0=<",
+	"right_normal": ">=0",
+	"left_eat": "X=<",
+	"right_eat": ">=X",
+	"left_hunt": "$=<",
+	"right_hunt": ">=$",
+	"left_sleep": "^=<",
+	"right_sleep": ">=^",
 }
 

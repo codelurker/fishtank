@@ -27,50 +27,50 @@ class Fish(Object):
 	def __init__(self, ascii, color=""):
 		super(Fish, self).__init__(color)
 
-		self.speed = 1
 		self.ascii = ascii
+		self.dir = "left"
+		self.head = "normal"
 
 	def setBoundaries(self, minX, minY, maxX, maxY):
 		self.agent.setBoundaries(minX, minY, maxX, maxY)
 
 	def draw(self, cio):
-		cio.drawAscii(int(self.x), int(self.y), self.ascii, self.color)
+		anim = self.dir + "_" + self.head
+		cio.drawAscii(int(self.x), int(self.y), self.ascii[anim], self.color)
 		xx, yy = self.agent.getCenter()
 		cio.drawAscii(int(xx), int(yy), "X")
 
+	def move(self, x, y):
+		super(Fish, self).move(x, y)
+		if x < 0:
+			self.dir = "left"
+		if x > 0:
+			self.dir = "right"
+
+	def changeHead(self, head):
+		self.head = head
+
+	def update(self):
+		if self.head is not "normal":
+			self.head = "normal"
+
 class SmallFish(Fish):
 	def __init__(self, color=""):
-		super(SmallFish, self).__init__(data.fish.fish["left"], color)
+		super(SmallFish, self).__init__(data.fish.fish, color)
 
 		self.agent = FishAgent()
-		self.speed = 8
-
-	def move(self, x, y):
-		super(SmallFish, self).move(x, y)
-		if x < 0:
-			self.ascii = data.fish.fish["left"]
-		if x > 0:
-			self.ascii = data.fish.fish["right"]
 
 	def update(self, dt, fishes, food, predators):
-		mx, my = self.agent.update(self.x, self.y, fishes, food, predators)
-		self.move(mx * self.speed * dt, my * self.speed * dt)
+		super(SmallFish, self).update()
+		self.agent.update(self, dt, fishes, food, predators)
 
 class PredatorFish(Fish):
 	def __init__(self, color=""):
-		super(PredatorFish, self).__init__(data.fish.predator["left"], color)
+		super(PredatorFish, self).__init__(data.fish.predator, color)
 
 		self.agent = PredatorAgent()
-		self.speed = 8
-
-	def move(self, x, y):
-		super(PredatorFish, self).move(x, y)
-		if x < 0:
-			self.ascii = data.fish.predator["left"]
-		if x > 0:
-			self.ascii = data.fish.predator["right"]
 
 	def update(self, dt, fishes):
-		mx, my = self.agent.update(self.x, self.y, fishes)
-		self.move(mx * self.speed * dt, my * self.speed * dt)
+		super(PredatorFish, self).update()
+		self.agent.update(self, dt, fishes)
 
