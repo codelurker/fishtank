@@ -112,6 +112,12 @@ class Tank:
 		for fish in self.fishes:
 			fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
 
+		# Move the objects (movements were stored in update)
+		for predator in self.predators:
+			predator.postUpdate()
+		for fish in self.fishes:
+			fish.postUpdate()
+
 	def drawHelp(self, cio):
 		cio.drawAscii(0, self.win_h, self.help)
 

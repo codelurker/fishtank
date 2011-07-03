@@ -29,11 +29,11 @@ class PredatorAgent(Agent):
 		if len(fishes) is 0 or self.owner is None:
 			return (None, None)
 		self.owner.changeHead("hunt")
-		self.speed = 14
+		self.speed = 16
 
 		fish, dist, cx, cy = super(PredatorAgent, self).getClosest(fishes)
 
-		if int(self.x) is int(cx) and int(self.y) is int(cy):
+		if dist <= 1.4:
 			fishes.remove(fish)
 			self.owner.changeHead("eat")
 			return (0, 0)
@@ -55,10 +55,10 @@ class PredatorAgent(Agent):
 	def sleep(self):
 		self.owner.changeHead("sleep")
 		self.speed = 4
-		return (0, 1)
+		return (0, self.step)
 
 	def update(self, owner, dt, fishes):
-		super(PredatorAgent, self).update(owner)
+		super(PredatorAgent, self).update(owner, dt)
 
 		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
@@ -68,6 +68,7 @@ class PredatorAgent(Agent):
 		if mx is None:
 			mx, my = self.sleep()
 
-		# Move the fish
-		super(PredatorAgent, self).move(dt, mx, my)
+		# Store the movement, will be used in postUpdate
+		self.moveX = mx
+		self.moveY = my
 

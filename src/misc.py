@@ -19,66 +19,11 @@
 # THE SOFTWARE.
 
 import math
-from src import misc
 
-class Agent(object):
-	def __init__(self):
-		self.centerX = 0
-		self.centerY = 0
-
-		self.owner = None
-		self.dt = 0
-		self.x = 0
-		self.y = 0
-
-		self.speed = 1
-		self.step = 0
-		self.moveX = 0
-		self.moveY = 0
-
-	def getCenter(self):
-		return (self.centerX, self.centerY)
-
-	def goTo(self, gx, gy, tx, ty):
-		dx = gx - self.x
-		dy = gy - self.y
-
-		if math.fabs(dx) < self.step:
-			mx = dx
-		else:
-			mx = self.step * misc.sign(dx)
-		if math.fabs(dy) < self.step:
-			my = dy
-		else:
-			my = self.step * misc.sign(dy)
-
-		return (mx, my)
-
-	def getClosest(self, objects):
-		cx = 0
-		cy = 0
-		cobj = None
-		closest = 1000 # TODO: make it a constant
-
-		for obj in objects:
-			ox, oy = obj.getPos()
-			dist = math.hypot(self.x - ox, self.y - oy)
-			if dist < closest:
-				closest = dist
-				cobj = obj
-				cx = ox
-				cy = oy
-
-		return (cobj, closest, cx, cy)
-
-	def update(self, owner, dt):
-		self.owner = owner
-		self.dt = dt
-		self.x, self.y = owner.getPos()
-
-		self.step = self.speed * dt
-
-	def move(self):
-		if self.owner is not None:
-			self.owner.move(self.moveX, self.moveY)
+def sign(x):
+	x_abs = math.fabs(x)
+	if x_abs == 0.0:
+		return 1
+	else:
+		return x / x_abs
 

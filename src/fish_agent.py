@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 from src.agent import Agent
+from src import misc
 
 class FishAgent(Agent):
 	def __init__(self):
@@ -52,7 +53,7 @@ class FishAgent(Agent):
 
 		food, dist, cx, cy = super(FishAgent, self).getClosest(foods)
 
-		if int(self.x) is int(cx) and int(self.y) is int(cy):
+		if dist <= 1:
 			foods.remove(food)
 			self.owner.changeHead("eat")
 			return (0, 0)
@@ -68,21 +69,15 @@ class FishAgent(Agent):
 		predator, dist, cx, cy = super(FishAgent, self).getClosest(predators)
 
 		if dist < 5:
-			if self.x - cx > 0:
-				mx = 1
-			else:
-				mx = -1
-			if self.y - cy > 0:
-				my = 1
-			else:
-				my = -1
+			mx = self.step * misc.sign(self.x - cx)
+			my = self.step * misc.sign(self.y - cy)
 
 			return (mx, my)
 		else:
 			return (None, None)
 
 	def update(self, owner, dt, fishes, food, predators):
-		super(FishAgent, self).update(owner)
+		super(FishAgent, self).update(owner, dt)
 
 		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
@@ -92,6 +87,7 @@ class FishAgent(Agent):
 		if mx is None:
 			mx, my = self.school(fishes)
 
-		# Move the fish
-		super(FishAgent, self).move(dt, mx, my)
+		# Store the movement, will be used in postUpdate
+		self.moveX = mx
+		self.moveY = my
 

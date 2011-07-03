@@ -27,12 +27,17 @@ class Fish(Object):
 	def __init__(self, ascii, color=""):
 		super(Fish, self).__init__(color)
 
+		self.agent = None
+
 		self.ascii = ascii
 		self.dir = "left"
 		self.head = "normal"
 
 	def setBoundaries(self, minX, minY, maxX, maxY):
-		self.agent.setBoundaries(minX, minY, maxX, maxY)
+		self.minX = minX
+		self.minY = minY
+		self.maxX = maxX
+		self.maxY = maxY
 
 	def draw(self, cio):
 		anim = self.dir + "_" + self.head
@@ -42,17 +47,29 @@ class Fish(Object):
 
 	def move(self, x, y):
 		super(Fish, self).move(x, y)
+
+		# Set the correct direction
 		if x < 0:
 			self.dir = "left"
 		if x > 0:
 			self.dir = "right"
 
+		# Keep the fish in the tank
+		if self.x < self.minX:
+			self.x = self.minX
+		if self.x > self.maxX:
+			self.x = self.maxX
+		if self.y < self.minY:
+			self.y = self.minY
+		if self.y > self.maxY:
+			self.y = self.maxY
+
 	def changeHead(self, head):
 		self.head = head
 
-	def update(self):
-		if self.head is not "normal":
-			self.head = "normal"
+	def postUpdate(self):
+		if self.agent is not None:
+			self.agent.move()
 
 class SmallFish(Fish):
 	def __init__(self, color=""):
@@ -61,7 +78,6 @@ class SmallFish(Fish):
 		self.agent = FishAgent()
 
 	def update(self, dt, fishes, food, predators):
-		super(SmallFish, self).update()
 		self.agent.update(self, dt, fishes, food, predators)
 
 class PredatorFish(Fish):
@@ -71,6 +87,5 @@ class PredatorFish(Fish):
 		self.agent = PredatorAgent()
 
 	def update(self, dt, fishes):
-		super(PredatorFish, self).update()
 		self.agent.update(self, dt, fishes)
 
