@@ -12,11 +12,13 @@ Contents
 ~~~~~~~~~~~~~~~~
 fishtank - simulation of a fish tank
 
-The fishtank is home to two kinds of fishes. The smaller ones are just fooling
+The fishtank is a home to two kinds of fishes. The smaller ones are just fooling
 around and trying to find something to eat. When they eat some food a new fish
-is born. The bigger ones are predators and therefore are trying to hunt down
-the smaller ones. You can add food to the tank or even new fishes - so try to
-create a balanced ecosystem.
+is born. Since they are so small and weak they tend to gather in a fish school.
+The bigger ones are predators and therefore are trying to hunt down the smaller
+ones. 
+You can add food to the tank or even new fishes - so try to create
+a balanced ecosystem.
 
 2. License
 ~~~~~~~~~~~

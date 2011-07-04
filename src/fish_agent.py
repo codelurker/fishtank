@@ -20,20 +20,37 @@
 
 import math
 import random
+import time
 from src.agent import Agent
 from src import misc
+import logging
+
+# Ooooh, dirtyyyy
+walkX = 0
+walkY = 0
+walkLast = 0
 
 class FishAgent(Agent):
 	def __init__(self):
 		super(FishAgent, self).__init__()
 		self.speed = 8
+		walkX = 0
+		walkY = 0
 
 	def randomWalk(self):
 		self.owner.changeHead("normal")
 		self.speed = 8
 
-		mx = self.step
-		my = 0
+		# Ooooh, dirtyyyy
+		global walkX, walkY, walkLast
+		if time.time()-walkLast > random.randint(1, 3):
+			walkX = random.choice((-1, 1))
+			walkY = random.choice((-1, 1))
+			walkLast = time.time()
+
+		mx = walkX * self.step
+		my = walkY * self.step
+
 		return (mx, my)
 
 	def school(self, fishes):
@@ -45,10 +62,10 @@ class FishAgent(Agent):
 		cx = 0
 		cy = 0
 		for fish in fishes:
-			if fish is not self.owner:
-				fx, fy = fish.getPos()
-				cx += fx
-				cy += fy
+			#if fish is not self.owner:
+			fx, fy = fish.getPos()
+			cx += fx
+			cy += fy
 
 		cx /= len(fishes)
 		cy /= len(fishes)
@@ -57,7 +74,7 @@ class FishAgent(Agent):
 		self.centerY = cy
 
 		dist = math.hypot(self.x - cx, self.y - cy)
-		if dist < 6:
+		if dist < 8:
 			return (None, None)
 		else:
 			return self.goTo(cx, cy)
@@ -73,8 +90,8 @@ class FishAgent(Agent):
 				fx, fy = fish.getPos()
 				dist = math.hypot(self.x - fx, self.y - fy)
 				if dist <= 0.9:
-					mx = random.randint(-1, 1)
-					my = random.randint(-1, 1)
+					mx = random.choice((-1, 1))
+					my = random.choice((-1, 1))
 					return (self.step * mx, self.step * my)
 
 		return (None, None)
