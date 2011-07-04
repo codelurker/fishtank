@@ -110,7 +110,12 @@ class Tank:
 		for predator in self.predators:
 			predator.update(self.timer.getDelta(), self.fishes)
 		for fish in self.fishes:
-			fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
+			newFish = fish.update(self.timer.getDelta(), self.fishes, self.food, self.predators)
+			if newFish:
+				smallFish = SmallFish("cyan")
+				smallFish.setBoundaries(1, 1, self.tank_w, self.tank_h)
+				smallFish.setPos(fish.getPos())
+				self.fishes.append(smallFish)
 
 		# Move the objects (movements were stored in update)
 		for predator in self.predators:

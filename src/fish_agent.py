@@ -115,11 +115,14 @@ class FishAgent(Agent):
 
 		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
+		newFish = False
 		mx, my = self.scatter(fishes)
 		if mx is None:
 			mx, my = self.run(predators)
 		if mx is None:
 			mx, my = self.feed(food)
+			if mx is 0 and my is 0:
+				newFish = True
 		if mx is None:
 			mx, my = self.school(fishes)
 		if mx is None:
@@ -128,4 +131,6 @@ class FishAgent(Agent):
 		# Store the movement, will be used in postUpdate
 		self.moveX = mx
 		self.moveY = my
+
+		return newFish
 

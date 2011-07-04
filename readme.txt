@@ -4,12 +4,19 @@ Contents
 	2. License
 	3. Dependencies
 	4. Controls
-	5. Fish emotions
+	5. Fish Emotions
+	6. Known Bugs
 
 
 1. Introduction
 ~~~~~~~~~~~~~~~~
 fishtank - simulation of a fish tank
+
+The fishtank is home to two kinds of fishes. The smaller ones are just fooling
+around and trying to find something to eat. When they eat some food a new fish
+is born. The bigger ones are predators and therefore are trying to hunt down
+the smaller ones. You can add food to the tank or even new fishes - so try to
+create a balanced ecosystem.
 
 2. License
 ~~~~~~~~~~~
@@ -26,7 +33,7 @@ c - add a cyan fish
 f - add some food for the fish
 p - add a predator fish
 
-5. Fish emotions
+5. Fish Emotions
 ~~~~~~~~~~~~~~~~~
 Small fish:
     0< - the fish feels good and is fooling around
@@ -38,4 +45,8 @@ Predator:
     $=< - the predator is in a hunting rush
     X=< - the predator just devoured some poor little fish
     ^=< - the predator is going to sleep as there is nothing to eat
+
+6. Known Bugs
+~~~~~~~~~~~~~~
+  - Shrinking the terminal while fishtank is running will crash the application
 

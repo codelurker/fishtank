@@ -33,6 +33,11 @@ class Fish(Object):
 		self.dir = "left"
 		self.head = "normal"
 
+		self.minX = 0
+		self.maxX = 0
+		self.minY = 0
+		self.maxY = 0
+
 	def setBoundaries(self, minX, minY, maxX, maxY):
 		self.minX = minX
 		self.minY = minY
@@ -88,7 +93,7 @@ class SmallFish(Fish):
 		self.agent = FishAgent()
 
 	def update(self, dt, fishes, food, predators):
-		self.agent.update(self, dt, fishes, food, predators)
+		return self.agent.update(self, dt, fishes, food, predators)
 
 class PredatorFish(Fish):
 	def __init__(self, color=""):
