@@ -82,7 +82,7 @@ class Tank:
 		return (x, y)
 
 	def initFish(self, fish):
-		fish.setBoundaries(2, 2, self.tank_w, self.tank_h)
+		fish.setBoundaries(1, 1, self.tank_w, self.tank_h)
 		fish.setPos(self.randPos())
 
 	def update(self, cio, key):
@@ -100,7 +100,7 @@ class Tank:
 			self.initFish(predatorFish)
 			self.predators.append(predatorFish)
 
-		# 'p' key - adds some food for the fishes
+		# 'f' key - adds some food for the fishes
 		if key == cio.key_f:
 			food = Food("yellow")
 			food.setPos(self.randPos())

@@ -41,9 +41,12 @@ class Fish(Object):
 
 	def draw(self, cio):
 		anim = self.dir + "_" + self.head
-		cio.drawAscii(int(self.x), int(self.y), self.ascii[anim], self.color)
-		xx, yy = self.agent.getCenter()
-		cio.drawAscii(int(xx), int(yy), "X")
+		off = self.ascii[self.dir + "_off"]
+		cio.drawAscii(int(self.x) - off, int(self.y), self.ascii[anim], self.color)
+
+		if self.agent is not None:
+			xx, yy = self.agent.getCenter()
+			cio.drawAscii(int(xx), int(yy), "X")
 
 	def move(self, x, y):
 		super(Fish, self).move(x, y)
@@ -55,10 +58,17 @@ class Fish(Object):
 			self.dir = "right"
 
 		# Keep the fish in the tank
-		if self.x < self.minX:
-			self.x = self.minX
-		if self.x > self.maxX:
-			self.x = self.maxX
+		off = self.ascii[self.dir + "_off"]
+		if self.dir is "left":
+			rdir = "right"
+		else:
+			rdir = "left"
+		roff = self.ascii[rdir + "_off"]
+
+		if (self.x - off) < self.minX:
+			self.x = self.minX + off
+		if (self.x + roff) > self.maxX:
+			self.x = self.maxX - roff
 		if self.y < self.minY:
 			self.y = self.minY
 		if self.y > self.maxY:

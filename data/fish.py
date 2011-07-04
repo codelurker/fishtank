@@ -19,6 +19,8 @@
 # THE SOFTWARE.
 
 fish = {
+	"left_off": 0,
+	"right_off": 1,
 	"left_normal": "0<",
 	"right_normal": ">0",
 	"left_eat": "X<",
@@ -28,6 +30,8 @@ fish = {
 }
 
 predator = {
+	"left_off": 0,
+	"right_off": 2,
 	"left_normal": "0=<",
 	"right_normal": ">=0",
 	"left_eat": "X=<",
