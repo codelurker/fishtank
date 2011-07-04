@@ -49,10 +49,6 @@ class Fish(Object):
 		off = self.ascii[self.dir + "_off"]
 		cio.drawAscii(int(self.x) - off, int(self.y), self.ascii[anim], self.color)
 
-		if self.agent is not None:
-			xx, yy = self.agent.getCenter()
-			cio.drawAscii(int(xx), int(yy), "X")
-
 	def move(self, x, y):
 		super(Fish, self).move(x, y)
 

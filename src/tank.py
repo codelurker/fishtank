@@ -45,7 +45,7 @@ class Tank:
 
 		# Generate some grass in the tank
 		logging.info("Generating grass...")
-		self.generateGrass(25)
+		self.generateGrass(10)
 
 		# Generate an initial population of fish
 		logging.info("Generating fish population...")

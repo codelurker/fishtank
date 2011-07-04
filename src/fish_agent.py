@@ -70,9 +70,6 @@ class FishAgent(Agent):
 		cx /= len(fishes)
 		cy /= len(fishes)
 
-		self.centerX = cx
-		self.centerY = cy
-
 		dist = math.hypot(self.x - cx, self.y - cy)
 		if dist < 8:
 			return (None, None)

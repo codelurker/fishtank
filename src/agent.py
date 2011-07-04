@@ -23,9 +23,6 @@ from src import misc
 
 class Agent(object):
 	def __init__(self):
-		self.centerX = 0
-		self.centerY = 0
-
 		self.owner = None
 		self.dt = 0
 		self.x = 0
@@ -35,9 +32,6 @@ class Agent(object):
 		self.step = 0
 		self.moveX = 0
 		self.moveY = 0
-
-	def getCenter(self):
-		return (self.centerX, self.centerY)
 
 	def goTo(self, gx, gy):
 		dx = gx - self.x
