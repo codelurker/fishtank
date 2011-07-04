@@ -26,7 +26,7 @@ class PredatorAgent(Agent):
 		self.speed = 8
 
 	def hunt(self, fishes):
-		if len(fishes) is 0 or self.owner is None:
+		if len(fishes) is 0:
 			return (None, None)
 		self.owner.changeHead("hunt")
 		self.speed = 16
@@ -38,19 +38,19 @@ class PredatorAgent(Agent):
 			self.owner.changeHead("eat")
 			return (0, 0)
 		elif dist < 6:
-			return self.goTo(cx, cy, 0, 0)
+			return self.goTo(cx, cy)
 		else:
 			return (None, None)
 
 	def findPrey(self, fishes):
-		if len(fishes) is 0 or self.owner is None:
+		if len(fishes) is 0:
 			return (None, None)
 		self.owner.changeHead("normal")
 		self.speed = 8
 
 		fish, dist, cx, cy = super(PredatorAgent, self).getClosest(fishes)
 
-		return self.goTo(cx, cy, 0, 0)
+		return self.goTo(cx, cy)
 
 	def sleep(self):
 		self.owner.changeHead("sleep")

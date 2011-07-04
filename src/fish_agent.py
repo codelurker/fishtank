@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import math
+import random
 from src.agent import Agent
 from src import misc
 
@@ -26,16 +28,27 @@ class FishAgent(Agent):
 		super(FishAgent, self).__init__()
 		self.speed = 8
 
+	def randomWalk(self):
+		self.owner.changeHead("normal")
+		self.speed = 8
+
+		mx = self.step
+		my = 0
+		return (mx, my)
+
 	def school(self, fishes):
+		if len(fishes) is 0:
+			return (None, None)
 		self.owner.changeHead("normal")
 		self.speed = 8
 
 		cx = 0
 		cy = 0
 		for fish in fishes:
-			fx, fy = fish.getPos()
-			cx += fx
-			cy += fy
+			if fish is not self.owner:
+				fx, fy = fish.getPos()
+				cx += fx
+				cy += fy
 
 		cx /= len(fishes)
 		cy /= len(fishes)
@@ -43,10 +56,31 @@ class FishAgent(Agent):
 		self.centerX = cx
 		self.centerY = cy
 
-		return self.goTo(cx, cy, 5, 3)
+		dist = math.hypot(self.x - cx, self.y - cy)
+		if dist < 6:
+			return (None, None)
+		else:
+			return self.goTo(cx, cy)
+
+	def scatter(self, fishes):
+		if len(fishes) is 0:
+			return (None, None)
+		self.owner.changeHead("normal")
+		self.speed = 8
+
+		for fish in fishes:
+			if fish is not self.owner:
+				fx, fy = fish.getPos()
+				dist = math.hypot(self.x - fx, self.y - fy)
+				if dist <= 0.9:
+					mx = random.randint(-1, 1)
+					my = random.randint(-1, 1)
+					return (self.step * mx, self.step * my)
+
+		return (None, None)
 
 	def feed(self, foods):
-		if len(foods) is 0 or self.owner is None:
+		if len(foods) is 0:
 			return (None, None)
 		self.owner.changeHead("normal")
 		self.speed = 8
@@ -58,13 +92,13 @@ class FishAgent(Agent):
 			self.owner.changeHead("eat")
 			return (0, 0)
 		else:
-			return self.goTo(cx, cy, 0, 0)
+			return self.goTo(cx, cy)
 
 	def run(self, predators):
 		if len(predators) is 0:
 			return (None, None)
 		self.owner.changeHead("run")
-		self.speed = 12
+		self.speed = 10
 
 		predator, dist, cx, cy = super(FishAgent, self).getClosest(predators)
 
@@ -81,11 +115,15 @@ class FishAgent(Agent):
 
 		# A hierarchy of behavior rules
 		# Rules are sorted according to their priority
-		mx, my = self.run(predators)
+		mx, my = self.scatter(fishes)
+		if mx is None:
+			mx, my = self.run(predators)
 		if mx is None:
 			mx, my = self.feed(food)
 		if mx is None:
 			mx, my = self.school(fishes)
+		if mx is None:
+			mx, my = self.randomWalk()
 
 		# Store the movement, will be used in postUpdate
 		self.moveX = mx

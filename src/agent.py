@@ -39,7 +39,7 @@ class Agent(object):
 	def getCenter(self):
 		return (self.centerX, self.centerY)
 
-	def goTo(self, gx, gy, tx, ty):
+	def goTo(self, gx, gy):
 		dx = gx - self.x
 		dy = gy - self.y
 
